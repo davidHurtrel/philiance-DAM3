@@ -1,0 +1,15 @@
+/* **************************************** CATEGORY **************************************** */
+
+    .card img {
+        aspect-ratio: 1/1;
+        object-fit: contain;
+    }
+
+    .new_product {
+        position: absolute;
+        top: 3rem;
+        left: 1.5rem;
+        background-color: #0D6EFD;
+        padding: 5px;
+        color: #FFFFFF;
+    }
