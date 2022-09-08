@@ -1,0 +1,59 @@
+{% extends 'base.html.twig' %}
+
+{% block description %}Page de contact du site table-top-games.com{% endblock %}
+
+{% block title %}contact{% endblock %}
+
+{% block h1 %}Contact{% endblock %}
+
+{% block body %}
+
+    {{ form_start(contactForm) }}
+
+        <div class="row">
+            <div class="col-6">
+                {{ form_row(contactForm.first_name, {
+                    'label': 'Prénom'
+                }) }}
+            </div>
+            <div class="col-6">
+                {{ form_row(contactForm.last_name, {
+                    'label': 'Nom'
+                }) }}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-6">
+                {{ form_row(contactForm.email) }}
+            </div>
+            <div class="col-6">
+                {{ form_row(contactForm.subject, {
+                    'label': 'Objet'
+                }) }}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                {{ form_row(contactForm.message) }}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-6 offset-3">
+                {{ form_row(contactForm.attachment, {
+                    'label': 'Pièce-jointe'
+                }) }}
+            </div>
+        </div>
+
+        <div class="row text-end">
+            <div class="col-12">
+                <button type="submit" class="btn btn-success">Envoyer</button>
+            </div>
+        </div>
+
+    {{ form_end(contactForm) }}
+
+{% endblock %}

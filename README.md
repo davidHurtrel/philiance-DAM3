@@ -293,6 +293,7 @@ symfony console cache:clear
 ## À VOIR
 
 - envoyer un mail avec Google (contact et register)
+- messages flash
 - renforcer le mot de passe (RollerWorks)
 - gestion du panier en session (CartService)
 - tunnel d'achat (gestion adresse, paiement avec Stripe)
