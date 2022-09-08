@@ -203,7 +203,7 @@ $this->AddFlash('le_label', 'le_message_a_afficher');
 
 ## EMAIL
 
-- installer le mailer :
+- installer le mailer (si nécessaire) :
 ```
 composer require symfony/mailer
 ```
@@ -285,3 +285,15 @@ role_hierarchy:
 ```
 symfony console cache:clear
 ```
+
+
+
+
+
+## À VOIR
+
+- envoyer un mail avec Google (contact et register)
+- renforcer le mot de passe (RollerWorks)
+- gestion du panier en session (CartService)
+- tunnel d'achat (gestion adresse, paiement avec Stripe)
+- bases de Git
