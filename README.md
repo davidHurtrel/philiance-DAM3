@@ -217,6 +217,20 @@ composer require symfony/google-mailer
 ```
 MAILER_DSN=gmail://USERNAME:PASWWORD@default
 ```
+- pour que les messages (emails) s'envoient directement (synchrone), config/packages/messenger.yaml :
+```YAML
+framework:
+    messenger:
+        ...
+        transports:
+            async:
+                ...
+            ...
+            sync: 'sync://' # décommenter cette ligne pour donner la possibilité d'envoyer des messages de manière synchrone
+        routing:
+            Symfony\Component\Mailer\Messenger\SendEmailMessage: sync # envoit les emails de manière synchrone
+            ...
+```
 
 ## LOGIN
 
@@ -292,9 +306,9 @@ symfony console cache:clear
 
 ## À VOIR
 
-- envoyer un mail avec Google (contact et register)
-- messages flash
-- renforcer le mot de passe (RollerWorks)
-- gestion du panier en session (CartService)
-- tunnel d'achat (gestion adresse, paiement avec Stripe)
-- bases de Git
+[x] envoyer un mail avec Google (contact et register)
+[x] messages flash
+[x] renforcer le mot de passe (RollerWorks)
+[ ] gestion du panier en session (CartService)
+[ ] tunnel d'achat (gestion adresse, paiement avec Stripe)
+[ ] bases de Git
