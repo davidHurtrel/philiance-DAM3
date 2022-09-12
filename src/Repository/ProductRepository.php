@@ -97,4 +97,19 @@ class ProductRepository extends ServiceEntityRepository
         )->setMaxResults(8);
         return $query->getResult();
     }
+
+    /**
+     * @return Product[] Returns an array of 8 best-seller Product objects
+     */
+    public function findBestSellers(): array
+    {
+        return $this->createQueryBuilder('p')
+            ->innerJoin('App\Entity\OrderDetail', 'od', 'WITH', 'p.id = od.product_id')
+            ->groupBy('od.product_id')
+            ->orderBy('SUM(od.quantity)', 'DESC')
+            ->setMaxResults(8)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 }

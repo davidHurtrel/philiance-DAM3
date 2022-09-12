@@ -18,7 +18,8 @@ class HomeController extends AbstractController
         // $produits = $productRepository->findLastEight(); // SQL
         
         return $this->render('home/index.html.twig', [ // demande à Twig d'afficher le template home/index.html.twig
-            'products' => $produits // en lui passant des infos
+            'products' => $produits, // en lui passant des infos
+            'bestSellers' => $productRepository->findBestSellers()
         ]);
     }
 }
