@@ -43,6 +43,12 @@
         min-height: calc(100vh - 387px);
     }
 
+    table img {
+        max-height: 50px;
+        aspect-ratio: 1/1;
+        object-fit: contain;
+    }
+
 /* **************************************** FOOTER **************************************** */
 
     footer ul {

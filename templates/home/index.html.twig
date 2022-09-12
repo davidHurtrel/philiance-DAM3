@@ -34,7 +34,7 @@
                             </ul>
                             <div class="card-body text-center">
                                 <a href="{{ path('product_show', {'slug': item.slug}) }}" class="card-link btn btn-outline-primary">Détails</a>
-                                <a href="#" class="card-link btn btn-{{ item.quantity != 0 ? 'success' : 'danger disabled' }}"><i class="bi bi-cart-plus-fill"></i></a>
+                                <a href="{{ path('cart_add', {'id': item.id}) }}" class="card-link btn btn-{{ item.quantity != 0 ? 'success' : 'danger disabled' }}"><i class="bi bi-cart-plus-fill"></i></a>
                             </div>
                         </div>
                     </div>
