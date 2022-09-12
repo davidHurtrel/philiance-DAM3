@@ -21,6 +21,7 @@
 
 ###> custom ###
 .DS_Store
-/public/img/product/
+/public/img/carrier/
 /public/img/category/
+/public/img/product/
 ###< custom ###
