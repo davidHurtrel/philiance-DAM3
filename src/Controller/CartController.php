@@ -40,7 +40,7 @@ class CartController extends AbstractController
     }
 
     #[Route('/cart/add/{id}', name: 'cart_add')]
-    public function add(int $id)
+    public function add(int $id): Response
     {
         $cart = $this->requestStack->getSession()->get('cart', []); // récupère le panier existant ou un tableau vide
         if (!empty($cart[$id])) { // si le produit est déjà dans le panier
@@ -49,6 +49,39 @@ class CartController extends AbstractController
             $cart[$id] = 1; // définit la quantité de ce produit à 1
         }
         $this->requestStack->getSession()->set('cart', $cart); // redéfinit le panier en session avec sa nouvelle valeur
+        return $this->redirectToRoute('cart');
+    }
+
+    #[Route('/cart/remove/{id}', name: 'cart_remove')]
+    public function remove(int $id): Response
+    {
+        $cart = $this->requestStack->getSession()->get('cart', []);
+        if (!empty($cart[$id])) { // vérifie que le produit est bien présent dans le panier
+            if ($cart[$id] > 1) { // si la quantité dans le panier est strictement supérieure à 1
+                $cart[$id]--; // décrémente la quantité
+            } else {
+                unset($cart[$id]); // supprime le produit du panier
+            }
+        }
+        $this->requestStack->getSession()->set('cart', $cart);
+        return $this->redirectToRoute('cart');
+    }
+
+    #[Route('/cart/delete/{id}', name: 'cart_delete')]
+    public function delete(int $id): Response
+    {
+        $cart = $this->requestStack->getSession()->get('cart', []);
+        if (!empty($cart[$id])) {
+            unset($cart[$id]);
+        }
+        $this->requestStack->getSession()->set('cart', $cart);
+        return $this->redirectToRoute('cart');
+    }
+
+    #[Route('/cart/clear', name: 'cart_clear')]
+    public function clear(): Response
+    {
+        $this->requestStack->getSession()->remove('cart');
         return $this->redirectToRoute('cart');
     }
 }
