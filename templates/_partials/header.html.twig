@@ -15,7 +15,14 @@
                     <a class="nav-link" href="{{ path('login') }}">Connexion</a>
                 {% endif %}
                 <a class="nav-link" href="{{ path('contact') }}">Contact</a>
-                <a class="nav-link" href="{{ path('cart') }}">Panier</a>
+                <a class="nav-link" href="{{ path('cart') }}">
+                    Panier
+                    {% if app.session.get('cart') is not empty %}
+                        <span class="badge rounded-pill text-bg-secondary">
+                            {{ render(controller('App\\Controller\\CartController::getNbProducts')) }}
+                        </span>
+                    {% endif %}
+                </a>
                 {% if is_granted('ROLE_ADMIN') %}
                     <a class="nav-link" href="{{ path('admin') }}">Admin</a>
                 {% endif %}
