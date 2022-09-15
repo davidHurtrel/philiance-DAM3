@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Service\CartService;
+use App\Form\CartValidationType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -67,6 +68,21 @@ class CartController extends AbstractController
     {
         return $this->render('cart/nbProducts.html.twig', [
             'nbProducts' => $cartService->getNbProducts()
+        ]);
+    }
+
+    #[Route('/cart/validation', name: 'cart_validation')]
+    public function validation(Request $request, CartService $cartService): Response
+    {
+        $cartValidationFrom = $this->createForm(CartValidationType::class);
+        $cartValidationFrom->handleRequest($request);
+
+        // traitement
+
+        return $this->render('cart/validation.html.twig', [
+            'cart' => $cartService->getCart(),
+            'total' => $cartService->getTotal(),
+            'cartValidationForm' => $cartValidationFrom->createView()
         ]);
     }
 }

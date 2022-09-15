@@ -33,6 +33,7 @@ security:
     access_control:
         - { path: ^/admin, roles: ROLE_ADMIN }
         - { path: ^/admin/user, roles: ROLE_SUPER_ADMIN }
+        - { path: ^/cart/validation, roles: ROLE_USER }
         # - { path: ^/profile, roles: ROLE_USER }
     
     role_hierarchy:
