@@ -293,6 +293,28 @@ role_hierarchy:
 {% endif %}
 ```
 
+## PAIEMENT STRIPE
+
+- créer un controller (et la vue associée) :
+```
+symfony console make:controller Payment
+```
+- créer un compte Stripe (si ce n'est pas déjà fait) : https://stripe.com/fr
+- installer le bundle (back) :
+```
+composer require stripe/stripe-php
+```
+- ajouter le script à la page de paiement (front) :
+```HTML
+<script src="https://js.stripe.com/v3/"></script>
+<script>
+    var stripe = Stripe('LA_CLE_PUBLIQUE');
+    stripe.redirectToCheckout({
+        sessionId: '{{ sessionId }}'
+    })
+</script>
+```
+
 ## COMMANDES UTILES
 
 - vider le cache (Symfony) :
@@ -309,6 +331,6 @@ symfony console cache:clear
 [x] envoyer un mail avec Google (contact et register)
 [x] messages flash
 [x] renforcer le mot de passe (RollerWorks)
-[ ] gestion du panier en session (CartService)
+[x] gestion du panier en session (CartService)
 [ ] tunnel d'achat (gestion adresse, paiement avec Stripe)
 [ ] bases de Git

@@ -6,6 +6,7 @@
 parameters:
     product_image_dir: '%kernel.project_dir%/public/img/product'
     category_image_dir: '%kernel.project_dir%/public/img/category'
+    stripe_secret_key: '%env(STRIPE_SK)%'
 
 services:
     # default configuration for services in *this* file

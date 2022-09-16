@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block description %}Page de paiement{% endblock %}
+
+{% block title %}paiement{% endblock %}
+
+{% block h1 %}Paiement{% endblock %}
+
+{% block body %}
+
+
+
+{% endblock %}
+
+{% block javascripts %}
+
+    <script src="https://js.stripe.com/v3/"></script>
+
+    <script>
+        var stripe = Stripe('pk_test_51LiZFTF7nYHbxcTjmTAUSjBvLBZJ5jEXhuIRlS7VSuskc15zQVG3c7zYcXSgcunMkVBzEvsLfxOxzDKHOt49fl1E009mXG2cku'); // initialise Stripe
+        stripe.redirectToCheckout({
+            sessionId: '{{ sessionId }}'
+        })
+    </script>
+
+{% endblock %}

@@ -2,8 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\Order;
+use App\Entity\OrderDetail;
 use App\Service\CartService;
 use App\Form\CartValidationType;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -72,12 +75,47 @@ class CartController extends AbstractController
     }
 
     #[Route('/cart/validation', name: 'cart_validation')]
-    public function validation(Request $request, CartService $cartService): Response
+    public function validation(Request $request, CartService $cartService, ManagerRegistry $managerRegistry): Response
     {
         $cartValidationFrom = $this->createForm(CartValidationType::class);
         $cartValidationFrom->handleRequest($request);
 
-        // traitement
+        if ($cartValidationFrom->isSubmitted() && $cartValidationFrom->isValid()) {
+
+            $manager = $managerRegistry->getManager();
+            $carrier = $cartValidationFrom['carrier']->getData();
+
+            $order = new Order(); // génère une nouvelle commande (pour la BDD)
+            $order
+                ->setUser($this->getUser())
+                ->setDeliveryAddress($cartValidationFrom['delivery_address']->getData())
+                ->setBillingAddress($cartValidationFrom['billing_address']->getData())
+                ->setCarrier($carrier)
+                ->setReference('O' . date_format(new \DateTime(), 'Ymdhis'))
+                ->setAmount($cartService->getTotal() + $carrier->getPrice())
+                ->setCreatedAt(new \DateTimeImmutable())
+                ->setPaid(false)
+            ;
+
+            $manager->persist($order);
+
+            foreach ($cartService->getCart() as $line) {
+                $orderDetail = new OrderDetail();
+                $orderDetail
+                    ->setOrderId($order)
+                    ->setProductId($line['product'])
+                    ->setQuantity($line['quantity'])
+                ;
+                $manager->persist($orderDetail);
+            }
+
+            $manager->flush();
+
+            return $this->redirectToRoute('payment', [
+                'order' => $order->getId()
+            ]);
+
+        }
 
         return $this->render('cart/validation.html.twig', [
             'cart' => $cartService->getCart(),
