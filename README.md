@@ -370,6 +370,24 @@ php bin/console doctrine:migrations:migrate
 php bin/console cache:clear
 ```
 
+### MISE À JOUR DE L'APPLICATION VIA SSH SUITE À UN PUSH
+
+```
+git pull origin main
+composer install
+php bin/console doctrine:migrations:migrate
+php bin/console cache:clear
+```
+
+### FORCER HTTPS
+
+- dans public/.htaccess :
+```
+# force HTTPS
+RewriteCond %{HTTPS} off
+RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L,NE,QSA]
+```
+
 ## COMMANDES UTILES
 
 - vider le cache (Symfony) :
