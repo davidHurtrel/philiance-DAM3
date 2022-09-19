@@ -315,6 +315,61 @@ composer require stripe/stripe-php
 </script>
 ```
 
+## HÉBERGEMENT
+
+- vérifier si PHP 8 et MySQL 5.7
+- si possible accès SSH
+
+### FTP
+
+- sur le site en local => passer en prod et vider le cache
+- envoyer les fichiers via FileZilla (cPanel) dans le dossier www (ou htdocs ou public_html) de l'hébergeur
+- modifier les infos dans le .Env hébergé (accès base de données, ...)
+- importer la base de données (si MySQL 5.6 => changer roles pour l'entité User en text et non json puis migration)
+- tester
+
+### SSH
+
+- dans un nouveau terminal, se connecter au serveur :
+```
+ssh LE_LIEN_SSH_DONNE_AVEC_L_HEBERGEMENT
+```
+- vérifier la présence de Git (git --version) et de Composer (composer --version)
+- si nécessaire, installer Composer à la racine de l'hébergement : se rendre sur getcomposer.org/download et exécuter les 4 commandes
+- se rendre dans le dossier qui contiendra l'application :
+```
+cd LE/CHEMIN/DU/DOSSIER (ex.: cd www/projet)
+```
+- initialiser le dépôt git local (sur le serveur, la première fois uniquement) :
+```
+git init
+```
+- lier le dépôt local au dépôt distant (la première fois uniquement) :
+```
+git remote add origin LIEN_DU_DEPOT_GITHUB
+```
+- télécharger le contenu du dépôt GitHub :
+```
+git pull origin main
+```
+- vérifier/modifier le .env (prod, BDD, ...)
+- installer les dépendances :
+```
+composer install (ou php ~/composer.phar install, selon l'hébergeur)
+```
+- si MySQL 5.6, la première fois, mettre à jour le schéma de la base de données (pour le champ roles en json) :
+```
+php bin/console doctrine:schema:update --force
+```
+- mettre à jour la base de données :
+```
+php bin/console doctrine:migrations:migrate
+```
+- vider le cache :
+```
+php bin/console cache:clear
+```
+
 ## COMMANDES UTILES
 
 - vider le cache (Symfony) :
