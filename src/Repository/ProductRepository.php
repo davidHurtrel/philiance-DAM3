@@ -112,4 +112,14 @@ class ProductRepository extends ServiceEntityRepository
             ->getResult()
         ;
     }
+
+    public function search(string $searchedValue): array
+    {
+        return $this->createQueryBuilder('p')
+            ->where('p.name LIKE :val')
+            ->setParameter(':val', '%' . $searchedValue . '%')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 }

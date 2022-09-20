@@ -6,11 +6,13 @@ use App\Entity\Product;
 use App\Form\ProductType;
 use App\Repository\ProductRepository;
 use Doctrine\Persistence\ManagerRegistry;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\String\Slugger\AsciiSlugger;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class ProductController extends AbstractController
 {
@@ -209,5 +211,39 @@ class ProductController extends AbstractController
 
         $this->addFlash('success', 'Le produit a bein été supprimé');
         return $this->redirectToRoute('admin_products');
+    }
+
+    #[Route('/search', name: 'search')]
+    public function searchResult(RequestStack $requestStack, ProductRepository $productRepository): Response
+    {
+        $searchedValue = $requestStack->getCurrentRequest()->get('form')['search'];
+        if($searchedValue) {
+            $products = $productRepository->search($searchedValue);
+        }
+
+        return $this->render('product/searchResult.html.twig', [
+            'searchedValue' => $searchedValue,
+            'products' => $products
+        ]);
+    }
+
+    public function searchBar(): Response
+    {
+        $searchForm = $this->createFormBuilder()
+            ->setAction($this->generateUrl('search'))
+            ->add('search', TextType::class, [
+                'label' => false,
+                'attr' => [
+                    'minLength' => 3,
+                    'maxLength' => 25,
+                    'placeholder' => 'Recherche'
+                ]
+            ])
+            ->getForm()
+        ;
+
+        return $this->render('product/searchForm.html.twig', [
+            'searchForm' => $searchForm->createView()
+        ]);
     }
 }

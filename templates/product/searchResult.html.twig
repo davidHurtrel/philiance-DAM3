@@ -1,0 +1,27 @@
+{% extends "base.html.twig" %}
+
+{% block description %}Résultats de la recherche {{ searchedValue }}{% endblock %}
+
+{% block title %}recherche{% endblock %}
+
+{% block breadcrump %}
+     / 
+    <a href="{{ path('products') }}">Produits</a>
+     / 
+    Recherche
+     / 
+    {{ searchedValue }}
+{% endblock %}
+
+{% block h1 %}Recherche{% endblock %}
+
+{% block body %}
+
+    <p>Recherche : {{ searchedValue }}</p>
+    {% for product in products %}
+        {{ product.name }}<br>
+    {% else %}
+        <p class="text-center">Aucun réslutat</p>
+    {% endfor %}
+
+{% endblock %}

@@ -26,6 +26,9 @@
                 {% if is_granted('ROLE_ADMIN') %}
                     <a class="nav-link" href="{{ path('admin') }}">Admin</a>
                 {% endif %}
+                {{ render(controller(
+                    'App\\Controller\\ProductController::searchBar'
+                )) }}
             </div>
         </div>
     </div>
